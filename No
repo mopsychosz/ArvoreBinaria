@@ -1,6 +1,4 @@
 
-package arvore;
-
 public class No { //criação da calasse no que representa um elemento da arvore
     private Integer conteudo; //privado pq só a classe pd acessar esse conteudo
     private No esquerda, direita; //declara os filhos
