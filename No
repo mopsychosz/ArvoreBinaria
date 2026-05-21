@@ -1,0 +1,20 @@
+
+package arvore;
+
+public class No { //criação da calasse no que representa um elemento da arvore
+    private Integer conteudo; //privado pq só a classe pd acessar esse conteudo
+    private No esquerda, direita; //declara os filhos
+
+    public No(Integer conteudo) { //construtor
+        this.conteudo = conteudo; //valor recebido do construtor 
+    }
+
+    public Integer getConteudo() { return conteudo; } //retorna o valor do no
+    public void setConteudo(Integer conteudo) { this.conteudo = conteudo; } //altera o valor do conteudo
+
+    public No getEsquerda() { return esquerda; } //retorna o no da esquerda
+    public void setEsquerda(No esquerda) { this.esquerda = esquerda; }//define o filho da esqurda
+
+    public No getDireita() { return direita; } //retorna o no da direita
+    public void setDireita(No direita) { this.direita = direita; } //define o filho da direita
+}
