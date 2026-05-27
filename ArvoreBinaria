@@ -1,75 +1,129 @@
-class ArvoreBinaria {
-    No raiz;
+public class ArvoreBinaria {
+
+    private No raiz;
 
     public ArvoreBinaria() {
-        this.raiz = null;
+        this.raiz = null; 
+        System.out.println("arvore binaria");
     }
 
-    public void inserir(int valor) {
-        raiz = inserirRec(raiz, valor);
+    private boolean estaVazia() {
+        return this.raiz == null;
     }
 
-    private No inserirRec(No atual, int valor) {
+    public void inserir(Integer conteudo) {
+        this.raiz = inserirRecursivo(this.raiz, conteudo);
+    }
+
+    private No inserirRecursivo(No atual, Integer conteudo) {
         if (atual == null) {
-            return new No(valor);
+            System.out.println("no " + conteudo + " inserido");
+            return new No(conteudo);
         }
-        if (valor < atual.valor) {
-            atual.esquerda = inserirRec(atual.esquerda, valor);
-        } else if (valor > atual.valor) {
-            atual.direita = inserirRec(atual.direita, valor);
+
+        if (conteudo < atual.getConteudo()) {
+            atual.setEsquerda(inserirRecursivo(atual.getEsquerda(), conteudo));
+        } else if (conteudo > atual.getConteudo()) {
+            atual.setDireita(inserirRecursivo(atual.getDireita(), conteudo));
+        } else {
+            System.out.println("não pode repetir o valor do no...");
         }
         return atual;
     }
 
-    public void remover(int valor) {
-        raiz = removerRec(raiz, valor);
+    public boolean buscar(Integer conteudo) {
+        No atual = raiz;
+        while (atual != null) {
+            if (conteudo.equals(atual.getConteudo())) {
+                System.out.println("valor " + conteudo + " encontrado");
+                return true;
+            }
+            atual = (conteudo < atual.getConteudo()) ? atual.getEsquerda() : atual.getDireita();
+        }
+        System.out.println("valor " + conteudo + " não encontrado...");
+        return false;
     }
 
-    private No removerRec(No atual, int valor) {
-        if (atual == null) {
-            return atual;
+    public void percurso(String percurso) {
+        if (estaVazia()) {
+            System.out.println("erro...");
+            return;
         }
 
-        if (valor < atual.valor) {
-            atual.esquerda = removerRec(atual.esquerda, valor);
-        } else if (valor > atual.valor) {
-            atual.direita = removerRec(atual.direita, valor);
+        switch (percurso) {
+            case "Pre":
+                preOrdem(this.raiz);
+                break;
+            case "Em":
+                emOrdem(this.raiz);
+                break;
+            case "Pos":
+                posOrdem(this.raiz);
+                break;
+        }
+    }
+
+    private void preOrdem(No no) {
+        if (no != null) {
+            System.out.println(no.getConteudo());
+            preOrdem(no.getEsquerda());
+            preOrdem(no.getDireita());
+        }
+    }
+
+    private void emOrdem(No no) {
+        if (no != null) {
+            emOrdem(no.getEsquerda());
+            System.out.println(no.getConteudo());
+            emOrdem(no.getDireita());
+        }
+    }
+
+    private void posOrdem(No no) {
+        if (no != null) {
+            posOrdem(no.getEsquerda());
+            posOrdem(no.getDireita());
+            System.out.println(no.getConteudo());
+        }
+    }
+
+    public void remover(Integer conteudo) {
+        if (estaVazia()) {
+            System.out.println("sem valores...");
+            return;
+        }
+        
+        if (buscar(conteudo)) {
+            this.raiz = removerRecursivo(this.raiz, conteudo);
+            System.out.println("no removido");
+        }
+    }
+
+    private No removerRecursivo(No atual, Integer conteudo) {
+        if (atual == null) {
+            return null;
+        }
+
+        if (conteudo < atual.getConteudo()) {
+            atual.setEsquerda(removerRecursivo(atual.getEsquerda(), conteudo));
+        } else if (conteudo > atual.getConteudo()) {
+            atual.setDireita(removerRecursivo(atual.getDireita(), conteudo));
         } else {
-           
-            if (atual.esquerda == null) {
-                return atual.direita;
-            } 
-            else if (atual.direita == null) {
-                return atual.esquerda;
+
+            if (atual.getEsquerda() == null) {
+                return atual.getDireita();
+            } else if (atual.getDireita() == null) {
+                return atual.getEsquerda();
             }
 
-            atual.valor = encontrarMenorValor(atual.direita);
+            atual.setConteudo(encontrarMenorValor(atual.getDireita()));
 
-            atual.direita = removerRec(atual.direita, atual.valor);
+            atual.setDireita(removerRecursivo(atual.getDireita(), atual.getConteudo()));
         }
-
-        return atual; 
+        return atual;
     }
 
-    private int encontrarMenorValor(No raiz) {
-        int menorValor = raiz.valor;
-        while (raiz.esquerda != null) {
-            menorValor = raiz.esquerda.valor;
-            raiz = raiz.esquerda;
-        }
-        return menorValor;
-    }
-
-    public void exibirEmOrdem() {
-        exibirEmOrdemRec(raiz);
-        System.out.println();
-    }
-
-    private void exibirEmOrdemRec(No raiz) {
-        if (raiz != null) {
-            exibirEmOrdemRec(raiz.esquerda);
-            System.out.print(raiz.valor + " ");
-            exibirEmOrdemRec(raiz.direita);
-        }
+    private Integer encontrarMenorValor(No raiz) {
+        return raiz.getEsquerda() == null ? raiz.getConteudo() : encontrarMenorValor(raiz.getEsquerda());
     }
 }
