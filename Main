@@ -1,0 +1,36 @@
+public class Main {
+    public static void main(String[] args) {
+        ArvoreBinaria arvore = new ArvoreBinaria();
+
+        arvore.inserir(20);
+        arvore.inserir(9);
+        arvore.inserir(6);
+        arvore.inserir(1);
+        arvore.inserir(2);
+        arvore.inserir(7);
+        arvore.inserir(13);
+        arvore.inserir(11);
+
+        System.out.println("arvore em ordem: ");
+        arvore.exibirEmOrdem();
+
+        System.out.println("\nremoção do no da folha");
+        arvore.remover(6);
+        arvore.exibirEmOrdem();
+
+        System.out.println("\nremoção do no de 1 filho: ");
+        arvore.remover(13);
+        arvore.exibirEmOrdem();
+
+        System.out.println("\nremoção do no de 2 filhos: ");
+        arvore.remover(1); 
+        arvore.remover(11); 
+        arvore.exibirEmOrdem();
+
+        System.out.println("\nremoção daraiz: ");
+        arvore.remover(20);
+        arvore.exibirEmOrdem();
+        
+        System.out.println("arvore atualizada: " + arvore.raiz.valor);
+    }
+}
