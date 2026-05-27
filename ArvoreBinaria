@@ -1,0 +1,75 @@
+class ArvoreBinaria {
+    No raiz;
+
+    public ArvoreBinaria() {
+        this.raiz = null;
+    }
+
+    public void inserir(int valor) {
+        raiz = inserirRec(raiz, valor);
+    }
+
+    private No inserirRec(No atual, int valor) {
+        if (atual == null) {
+            return new No(valor);
+        }
+        if (valor < atual.valor) {
+            atual.esquerda = inserirRec(atual.esquerda, valor);
+        } else if (valor > atual.valor) {
+            atual.direita = inserirRec(atual.direita, valor);
+        }
+        return atual;
+    }
+
+    public void remover(int valor) {
+        raiz = removerRec(raiz, valor);
+    }
+
+    private No removerRec(No atual, int valor) {
+        if (atual == null) {
+            return atual;
+        }
+
+        if (valor < atual.valor) {
+            atual.esquerda = removerRec(atual.esquerda, valor);
+        } else if (valor > atual.valor) {
+            atual.direita = removerRec(atual.direita, valor);
+        } else {
+           
+            if (atual.esquerda == null) {
+                return atual.direita;
+            } 
+            else if (atual.direita == null) {
+                return atual.esquerda;
+            }
+
+            atual.valor = encontrarMenorValor(atual.direita);
+
+            atual.direita = removerRec(atual.direita, atual.valor);
+        }
+
+        return atual; 
+    }
+
+    private int encontrarMenorValor(No raiz) {
+        int menorValor = raiz.valor;
+        while (raiz.esquerda != null) {
+            menorValor = raiz.esquerda.valor;
+            raiz = raiz.esquerda;
+        }
+        return menorValor;
+    }
+
+    public void exibirEmOrdem() {
+        exibirEmOrdemRec(raiz);
+        System.out.println();
+    }
+
+    private void exibirEmOrdemRec(No raiz) {
+        if (raiz != null) {
+            exibirEmOrdemRec(raiz.esquerda);
+            System.out.print(raiz.valor + " ");
+            exibirEmOrdemRec(raiz.direita);
+        }
+    }
+}
