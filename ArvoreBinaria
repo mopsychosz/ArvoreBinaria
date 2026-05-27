@@ -17,7 +17,7 @@ public class ArvoreBinaria {
 
     private No inserirRecursivo(No atual, Integer conteudo) {
         if (atual == null) {
-            System.out.println("no " + conteudo + " inserido");
+            System.out.println("" + conteudo + "");
             return new No(conteudo);
         }
 
@@ -35,7 +35,7 @@ public class ArvoreBinaria {
         No atual = raiz;
         while (atual != null) {
             if (conteudo.equals(atual.getConteudo())) {
-                System.out.println("valor " + conteudo + " encontrado");
+                System.out.println("" + conteudo + "");
                 return true;
             }
             atual = (conteudo < atual.getConteudo()) ? atual.getEsquerda() : atual.getDireita();
