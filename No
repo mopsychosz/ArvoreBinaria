@@ -1,18 +1,89 @@
+class No {
+    int valor;
+    No esquerda, direita;
 
-public class No { //criação da calasse no que representa um elemento da arvore
-    private Integer conteudo; //privado pq só a classe pd acessar esse conteudo
-    private No esquerda, direita; //declara os filhos
+    public No(int valor) {
+        this.valor = valor;
+        this.esquerda = null;
+        this.direita = null;
+    }
+}
 
-    public No(Integer conteudo) { //construtor
-        this.conteudo = conteudo; //valor recebido do construtor 
+class ArvoreBinaria {
+    No raiz;
+
+    public ArvoreBinaria() {
+        this.raiz = null;
     }
 
-    public Integer getConteudo() { return conteudo; } //retorna o valor do no
-    public void setConteudo(Integer conteudo) { this.conteudo = conteudo; } //altera o valor do conteudo
+    public void inserir(int valor) {
+        raiz = inserirRec(raiz, valor);
+    }
 
-    public No getEsquerda() { return esquerda; } //retorna o no da esquerda
-    public void setEsquerda(No esquerda) { this.esquerda = esquerda; }//define o filho da esqurda
+    private No inserirRec(No atual, int valor) {
+        if (atual == null) {
+            return new No(valor);
+        }
+        if (valor < atual.valor) {
+            atual.esquerda = inserirRec(atual.esquerda, valor);
+        } else if (valor > atual.valor) {
+            atual.direita = inserirRec(atual.direita, valor);
+        }
+        return atual;
+    }
 
-    public No getDireita() { return direita; } //retorna o no da direita
-    public void setDireita(No direita) { this.direita = direita; } //define o filho da direita
+    public void remover(int valor) {
+        raiz = removerRec(raiz, valor);
+    }
+
+    private No removerRec(No atual, int valor) {
+        
+        if (atual == null) {
+            return atual;
+        }
+
+        if (valor < atual.valor) {
+            atual.esquerda = removerRec(atual.esquerda, valor);
+        } else if (valor > atual.valor) {
+            atual.direita = removerRec(atual.direita, valor);
+        } else {
+
+    
+            if (atual.esquerda == null) {
+                return atual.direita;
+            } 
+
+            else if (atual.direita == null) {
+                return atual.esquerda;
+            }
+
+            atual.valor = encontrarMenorValor(atual.direita);
+
+            atual.direita = removerRec(atual.direita, atual.valor);
+        }
+
+        return atual;
+    }
+
+    private int encontrarMenorValor(No raiz) {
+        int menorValor = raiz.valor;
+        while (raiz.esquerda != null) {
+            menorValor = raiz.esquerda.valor;
+            raiz = raiz.esquerda;
+        }
+        return menorValor;
+    }
+
+    public void exibirEmOrdem() {
+        exibirEmOrdemRec(raiz);
+        System.out.println();
+    }
+
+    private void exibirEmOrdemRec(No raiz) {
+        if (raiz != null) {
+            exibirEmOrdemRec(raiz.esquerda);
+            System.out.print(raiz.valor + " ");
+            exibirEmOrdemRec(raiz.direita);
+        }
+    }
 }
